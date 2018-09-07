@@ -9,4 +9,11 @@ public class Box {
         this.col = col;
         this.candidates = candidates;
     }
+
+    public void removeCandidate(int candidate){
+        for (int c: candidates){
+            if (c == candidate)
+                candidates.remove(c);
+        }
+    }
 }
