@@ -1,7 +1,10 @@
-public class SudokuMain<i> {
-    private Box[][] sudoku = new Box[9][9];
+import sun.security.util.Length;
 
-    private int[][] init =
+public class SudokuMain<i> {
+
+
+    private static Box[][] sudoku = new Box[9][9];
+    private static int[][] init =
             {{5, 0, 0, 0, 1, 2, 8, 0, 9},
                     {3, 0, 0, 0, 9, 0, 4, 6, 0},
                     {0, 9, 6, 2, 0, 0, 1, 0, 3},
@@ -13,8 +16,13 @@ public class SudokuMain<i> {
                     {1, 0, 5, 8, 2, 0, 0, 0, 4}
             };
 
-
     public static void main(String[] args) {
-
+        for (int r=0; r< init.length; r++)
+        {
+            for (int c=0; c< init[0].length; c++)
+            {
+                sudoku[r][c]=new Box(r, c, init[r][c]);
+            }
+        }
     }
 }
