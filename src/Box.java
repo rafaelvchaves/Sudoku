@@ -1,14 +1,17 @@
 import java.util.ArrayList;
-//push
+
 public class Box {
     private int row, col, value;
     private ArrayList<Integer> candidates = new ArrayList();
+    
 
     public Box(int row, int col, int value){
+
+
         this.row = row;
         this.col = col;
         this.value = value;
-        if (value!=0){
+        if (value == 0){
             for (int i=1; i<10; i++){
                 candidates.add(i);
             }
@@ -20,5 +23,6 @@ public class Box {
             if (c == candidate)
                 candidates.remove(c);
         }
+
     }
 }

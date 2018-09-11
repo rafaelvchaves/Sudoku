@@ -24,5 +24,15 @@ public class SudokuMain<i> {
                 sudoku[r][c]=new Box(r, c, init[r][c]);
             }
         }
+        for (int r = 0; r < init.length; r++) {
+            for (int c = 0; c < init[0].length; c++) {
+                if (init[r][c] == 0){
+                    for (int i = 0; i < init.length; i++) {
+                        if (init[r][i] != 0)
+                            sudoku[r][i].removeCandidate(init[r][i]);
+                    }
+                }
+            }
+        }
     }
 }
