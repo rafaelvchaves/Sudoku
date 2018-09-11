@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 //push
 public class Box {
-    private int row, col;
+    private int row, col, value;
     private ArrayList<Integer> candidates = new ArrayList();
 
     public Box(int row, int col, ArrayList<Integer> candidates){

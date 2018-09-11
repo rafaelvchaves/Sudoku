@@ -1,4 +1,19 @@
-public class SudokuMain {
+public class SudokuMain<i> {
+    private Box[][] sudoku = new Box[9][9];
+
+    private int[][] init =
+            {{5, 0, 0, 0, 1, 2, 8, 0, 9},
+                    {3, 0, 0, 0, 9, 0, 4, 6, 0},
+                    {0, 9, 6, 2, 0, 0, 1, 0, 3},
+                    {6, 0, 0, 0, 5, 0, 9, 0, 0},
+                    {0, 0, 0, 7, 0, 9, 0, 0, 0},
+                    {0, 0, 9, 0, 6, 0, 0, 0, 8},
+                    {9, 0, 2, 0, 0, 5, 7, 8, 0},
+                    {0, 4, 8, 0, 3, 0, 0, 0, 2},
+                    {1, 0, 5, 8, 2, 0, 0, 0, 4}
+            };
+
+
     public static void main(String[] args) {
 
     }
