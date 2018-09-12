@@ -4,5 +4,4 @@ public class Reader {
 //    public Box[][] getSudoku(){
 //
 //    }
-
 }
