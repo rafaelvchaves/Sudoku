@@ -20,18 +20,18 @@ public class SudokuMain<i> {
 
     public static void main(String[] args) {
         int initSolved = 0;
-        int finSolved = 0;
+        boolean zeroes=true;
         for (int r = 0; r < init.length; r++) {
             for (int c = 0; c < init[0].length; c++) {
                 sudoku[r][c] = new Box(r, c, init[r][c]);
                 if (init[r][c] != 0) {
                     initSolved++;
-                    finSolved++;
                 }
             }
         }
         System.out.println(initSolved);
-        while (finSolved < 81) {
+        while (zeroes==true) {
+            zeroes=false;
             for (int r = 0; r < init.length; r++) {
                 for (int c = 0; c < init[0].length; c++) {
                     if (init[r][c] == 0) {
@@ -130,15 +130,19 @@ public class SudokuMain<i> {
             }
 
 
+
             for (int r = 0; r < init.length; r++) {
                 for (int c = 0; c < init[0].length; c++) {
-                    if (init[r][c] == 0)
-                        finSolved++;
+                    if (sudoku[r][c].getValue() == 0){
+                        zeroes=true;
+                    }
                 }
+            }
+            for (int i = 0; i < init.length; i++) {
+                System.out.println(Arrays.toString(init[i]));
             }
         }
 
-        System.out.println(finSolved);
 //        System.out.println(sudoku[3][2].getCandidates());
         for (int i = 0; i < init.length; i++) {
             System.out.println(Arrays.toString(init[i]));

@@ -19,6 +19,11 @@ public class Box {
     }
 
     //
+
+    public int getValue() {
+        return value;
+    }
+
     public void removeCandidate(int candidate) {
         for (int i = candidates.size() - 1; i >= 0; i--) {
             if (candidates.get(i) == candidate)
