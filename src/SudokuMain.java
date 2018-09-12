@@ -144,9 +144,7 @@ public class SudokuMain<i> {
         }
 
 //        System.out.println(sudoku[3][2].getCandidates());
-        for (int i = 0; i < init.length; i++) {
-            System.out.println(Arrays.toString(init[i]));
-        }
+        System.out.println("Solved");
     }
 }
 
