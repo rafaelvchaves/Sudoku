@@ -83,10 +83,10 @@ public class Box {
     public void setValue(int val) {
         value = val;
         System.out.println("CANDIDATES: " + candidates);
-        for (int i = candidates.size() - 1; i >= 0; i--) {
-            if (candidates.get(i) != val)
-                candidates.remove(i);
-        }
+//        for (int i = candidates.size() - 1; i >= 0; i--) {
+//            if (candidates.get(i) != val)
+//                candidates.remove(i);
+//        }
     }
     public int getBox(){
         return box;
