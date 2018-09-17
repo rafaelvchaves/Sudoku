@@ -100,6 +100,7 @@ public class SudokuMain<i> {
                         for (int candidate : sudoku[r][c].getCandidates()) {
                             foundinRow = false;
                             foundinCol = false;
+                            foundinBox = false;
 
                             //checking to see if a candidate is found anywhere else in init[r][c]'s row
 
