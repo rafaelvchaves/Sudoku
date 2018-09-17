@@ -87,6 +87,9 @@ public class Box {
 //            if (candidates.get(i) != val)
 //                candidates.remove(i);
 //        }
+        if (val!=0){
+            candidates=new ArrayList<Integer>() {};
+        }
     }
     public int getBox(){
         return box;
