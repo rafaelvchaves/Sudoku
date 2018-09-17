@@ -28,11 +28,9 @@ public class Box {
         }
         if (row >= 3 && row <= 5 && col >= 6) {
             box = 6;
-
         }
         if (row >= 6 && col <= 2) {
             box = 7;
-
         }
         if (row >= 6 && col >= 3 && col <= 5) {
             box = 8;
@@ -53,8 +51,42 @@ public class Box {
         return value;
     }
 
+    public int getInitialRowIndex() {
+        //Grid #    initCol
+        //1     0
+        //2     0
+        //3     0
+        //4     3
+        //5     3
+        //6     3
+        //7     6
+        //8     6
+        //9     6
+        int var = ((getBox() - 1)/3)*3;
+        if (var != 0 && var != 3 && var != 6) {
+            System.out.println(var);
+        }
+        return var;
+
+
+    }
+    public int getInitialColIndex(){
+        //Grid #    initCol
+        //1     0
+        //2     3
+        //3     6
+        //4     0
+        //5     3
+        return (getBox()-1)%3*3;
+    }
+
     public void setValue(int val) {
         value = val;
+        System.out.println("CANDIDATES: " + candidates);
+        for (int i = candidates.size() - 1; i >= 0; i--) {
+            if (candidates.get(i) != val)
+                candidates.remove(i);
+        }
     }
     public int getBox(){
         return box;
@@ -65,8 +97,6 @@ public class Box {
             if (candidates.get(i) == candidate)
                 candidates.remove(i);
         }
-
-
     }
 
     public boolean containsCandidate(int candidate){
@@ -76,6 +106,7 @@ public class Box {
         }
         return false;
     }
+
 
     public ArrayList<Integer> getCandidates(){
         return candidates;

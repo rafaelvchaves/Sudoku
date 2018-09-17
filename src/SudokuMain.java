@@ -30,7 +30,6 @@ public class SudokuMain<i> {
 //                    {4, 1, 0, 0, 0, 0, 2, 0, 8}
 
 
-
 //                    {5, 0, 0, 0, 1, 3, 8, 0, 9},
 //                    {3, 0, 0, 0, 9, 0, 4, 6, 0},
 //                    {0, 9, 6, 2, 0, 0, 1, 0, 3},
@@ -50,7 +49,7 @@ public class SudokuMain<i> {
         boolean foundinRow = false;
         boolean foundinCol = false;
         boolean foundinBox = false;
-        boolean zeroes=true;
+        boolean zeroes = true;
         for (int r = 0; r < init.length; r++) {
             for (int c = 0; c < init[0].length; c++) {
                 sudoku[r][c] = new Box(r, c, init[r][c]);
@@ -59,205 +58,92 @@ public class SudokuMain<i> {
                 }
             }
         }
-//        System.out.println(initSolved);
+        System.out.println(initSolved);
         while (zeroes) {
-            zeroes=false;
+            zeroes = false;
             for (int r = 0; r < init.length; r++) {
                 for (int c = 0; c < init[0].length; c++) {
+
                     if (init[r][c] == 0) {
+
+                        //checking solved squares in same row to eliminate candidates from init[r][c]
+
                         for (int i = 0; i < init.length; i++) {
                             if (init[r][i] != 0) {
                                 sudoku[r][c].removeCandidate(init[r][i]);
                             }
                         }
+                        //checking solved squares in same column to eliminate candidates from init[r][c]
+
                         for (int i = 0; i < init[0].length; i++) {
                             if (init[i][c] != 0) {
                                 sudoku[r][c].removeCandidate(init[i][c]);
                             }
                         }
-                        if (r <= 2 && c <= 2) {
-                            for (int r1 = 0; r1 <= 2; r1++) {
-                                for (int c1 = 0; c1 <= 2; c1++) {
-                                    if (init[r1][c1] != 0)
-                                        sudoku[r][c].removeCandidate(init[r1][c1]);
-                                }
+
+                        //indexes of the top left hand corner of the 3x3 grid that init[r][c] is in
+
+                        int initialRowIndex = sudoku[r][c].getInitialRowIndex();
+                        int initialColIndex = sudoku[r][c].getInitialColIndex();
+
+                        //checking solved squares in same 3x3 grid to eliminate candidates from init[r][c]
+
+                        for (int r1 = initialRowIndex; r1 <= initialRowIndex + 2; r1++) {
+                            for (int c1 = initialColIndex; c1 <= initialColIndex + 2; c1++) {
+                                if (init[r1][c1] != 0)
+                                    sudoku[r][c].removeCandidate(init[r1][c1]);
                             }
                         }
-                        if (r <= 2 && c >= 3 && c <= 5) {
-                            for (int r1 = 0; r1 <= 2; r1++) {
-                                for (int c1 = 3; c1 <= 5; c1++) {
-                                    if (init[r1][c1] != 0)
-                                        sudoku[r][c].removeCandidate(init[r1][c1]);
-                                }
-                            }
-                        }
-                        if (r <= 2 && c >= 6) {
-                            for (int r1 = 0; r1 <= 2; r1++) {
-                                for (int c1 = 6; c1 <= 8; c1++) {
-                                    if (init[r1][c1] != 0)
-                                        sudoku[r][c].removeCandidate(init[r1][c1]);
-                                }
-                            }
-                        }
-                        if (r >= 3 && r <= 5 && c <= 2) {
-                            for (int r1 = 3; r1 <= 5; r1++) {
-                                for (int c1 = 0; c1 <= 2; c1++) {
-                                    if (init[r1][c1] != 0)
-                                        sudoku[r][c].removeCandidate(init[r1][c1]);
-                                }
-                            }
-                        }
-                        if (r >= 3 && r <= 5 && c >= 3 && c <= 5) {
-                            for (int r1 = 3; r1 <= 5; r1++) {
-                                for (int c1 = 3; c1 <= 5; c1++) {
-                                    if (init[r1][c1] != 0)
-                                        sudoku[r][c].removeCandidate(init[r1][c1]);
-                                }
-                            }
-                        }
-                        if (r >= 3 && r <= 5 && c >= 6) {
-                            for (int r1 = 3; r1 <= 5; r1++) {
-                                for (int c1 = 6; c1 <= 8; c1++) {
-                                    if (init[r1][c1] != 0)
-                                        sudoku[r][c].removeCandidate(init[r1][c1]);
-                                }
-                            }
-                        }
-                        if (r >= 6 && c <= 2) {
-                            for (int r1 = 6; r1 <= 8; r1++) {
-                                for (int c1 = 0; c1 <= 2; c1++) {
-                                    if (init[r1][c1] != 0)
-                                        sudoku[r][c].removeCandidate(init[r1][c1]);
-                                }
-                            }
-                        }
-                        if (r >= 6 && c >= 3 && c <= 5) {
-                            for (int r1 = 6; r1 <= 8; r1++) {
-                                for (int c1 = 3; c1 <= 5; c1++) {
-                                    if (init[r1][c1] != 0)
-                                        sudoku[r][c].removeCandidate(init[r1][c1]);
-                                }
-                            }
-                        }
-                        if (r >= 6 && c >= 6) {
-                            for (int r1 = 6; r1 <= 8; r1++) {
-                                for (int c1 = 6; c1 <= 8; c1++) {
-                                    if (init[r1][c1] != 0) {
-                                        sudoku[r][c].removeCandidate(init[r1][c1]);
-                                    }
-                                }
-                            }
-                        }
-                        for (int i : sudoku[r][c].getCandidates()) {
+
+                        //looping through the candidates of init[r][c]
+
+                        for (int candidate : sudoku[r][c].getCandidates()) {
                             foundinRow = false;
                             foundinCol = false;
+
+                            //checking to see if a candidate is found anywhere else in init[r][c]'s row
+
                             for (int j = 0; j < sudoku.length; j++) {
-                                if (sudoku[r][j].containsCandidate(i) && j!=c) {
+                                if (sudoku[r][j].containsCandidate(candidate) && j != c) {
                                     foundinRow = true;
                                 }
                             }
+
+                            //checking to see if this candidate is found anywhere else in init[r][c]'s column
+
+
                             for (int j = 0; j < sudoku.length; j++) {
-                                if (sudoku[j][c].containsCandidate(i) && j!=r) {
+                                if (sudoku[j][c].containsCandidate(candidate) && j != r) {
                                     foundinCol = true;
                                 }
                             }
 
-                            if (sudoku[r][c].getBox() == 1){
-                                for (int r1 = 0; r1 < 2; r1++) {
-                                    for (int c1 = 0; c1 < 2; c1++) {
-                                        if (sudoku[r1][c1].containsCandidate(i) && (r1!=r || c1!= c)) {
-                                            foundinBox = true;
-                                        }
-                                    }
-                                }
-                            }
-                            if (sudoku[r][c].getBox() == 2){
-                                for (int r1 = 0; r1 < 2; r1++) {
-                                    for (int c1 = 3; c1 < 5; c1++) {
-                                        if (sudoku[r1][c1].containsCandidate(i) && (r1!=r || c1!= c)) {
-                                            foundinBox = true;
-                                        }
-                                    }
-                                }
-                            }
-                            if (sudoku[r][c].getBox() == 3){
-                                for (int r1 = 0; r1 < 2; r1++) {
-                                    for (int c1 = 6; c1 < 8; c1++) {
-                                        if (sudoku[r1][c1].containsCandidate(i) && (r1!=r || c1!= c)) {
-                                            foundinBox = true;
-                                        }
-                                    }
-                                }
-                            }
-                            if (sudoku[r][c].getBox() == 4){
-                                for (int r1 = 3; r1 < 5; r1++) {
-                                    for (int c1 = 0; c1 < 2; c1++) {
-                                        if (sudoku[r1][c1].containsCandidate(i) && (r1!=r || c1!= c)) {
-                                            foundinBox = true;
-                                        }
-                                    }
-                                }
-                            }
-                            if (sudoku[r][c].getBox() == 5){
-                                for (int r1 = 3; r1 < 5; r1++) {
-                                    for (int c1 = 3; c1 < 5; c1++) {
-                                        if (sudoku[r1][c1].containsCandidate(i) && (r1!=r || c1!= c)) {
-                                            foundinBox = true;
-                                        }
-                                    }
-                                }
-                            }
-                            if (sudoku[r][c].getBox() == 6){
-                                for (int r1 = 3; r1 < 5; r1++) {
-                                    for (int c1 = 6; c1 < 8; c1++) {
-                                        if (sudoku[r1][c1].containsCandidate(i) && (r1!=r || c1!= c)) {
-                                            foundinBox = true;
-                                        }
-                                    }
-                                }
-                            }
-                            if (sudoku[r][c].getBox() == 7){
-                                for (int r1 = 6; r1 < 8; r1++) {
-                                    for (int c1 = 0; c1 < 2; c1++) {
-                                        if (sudoku[r1][c1].containsCandidate(i) && (r1!=r || c1!= c)) {
-                                            foundinBox = true;
-                                        }
-                                    }
-                                }
-                            }
-                            if (sudoku[r][c].getBox() == 8){
-                                for (int r1 = 6; r1 < 8; r1++) {
-                                    for (int c1 = 3; c1 < 5; c1++) {
-                                        if (sudoku[r1][c1].containsCandidate(i) && (r1!=r || c1!= c)) {
-                                            foundinBox = true;
-                                        }
-                                    }
-                                }
-                            }
-                            if (sudoku[r][c].getBox() == 9){
-                                for (int r1 = 6; r1 < 8; r1++) {
-                                    for (int c1 = 6; c1 < 8; c1++) {
-                                        if (sudoku[r1][c1].containsCandidate(i) && (r1!=r || c1!= c)) {
-                                            foundinBox = true;
-                                        }
+                            //checking to see if this candidate is found anywhere else in init[r][c]'s 3x3 grid
+
+
+                            for (int r1 = initialRowIndex; r1 <= initialRowIndex + 2; r1++) {
+                                for (int c1 = initialColIndex; c1 <= initialColIndex + 2; c1++) {
+                                    if (sudoku[r1][c1].containsCandidate(candidate) && (r1 != r || c1 != c)) {
+                                        foundinBox = true;
                                     }
                                 }
                             }
 
+                            //if this candidate has not been found in either init[r][c]'s row, column, or 3x3 grid,
+                            //then set init[r][c] to this candidate
+
                             if (!foundinRow) {
-//                                System.out.println("No other candidate in row");
-                                sudoku[r][c].setValue(i);
-                                init[r][c] = i;
+                                sudoku[r][c].setValue(candidate);
+                                init[r][c] = candidate;
                             }
 
                             if (!foundinCol) {
-//                                System.out.println("No other candidate in column");
-                                sudoku[r][c].setValue(i);
-                                init[r][c] = i;
+                                sudoku[r][c].setValue(candidate);
+                                init[r][c] = candidate;
                             }
                             if (!foundinBox) {
-                                sudoku[r][c].setValue(i);
-                                init[r][c] = i;
+                                sudoku[r][c].setValue(candidate);
+                                init[r][c] = candidate;
                             }
 
 
@@ -271,10 +157,9 @@ public class SudokuMain<i> {
                         sudoku[r][c].setValue(init[r][c]);
                     }
                     if (init[r][c] == 0)
-                        zeroes=true;
+                        zeroes = true;
                 }
             }
-
 
 
             for (int i = 0; i < init.length; i++) {
@@ -282,7 +167,6 @@ public class SudokuMain<i> {
             }
         }
 
-//        System.out.println(sudoku[3][2].getCandidates());
         System.out.println("Solved");
     }
 }
