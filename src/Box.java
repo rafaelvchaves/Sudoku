@@ -5,6 +5,7 @@ public class Box {
     private ArrayList<Integer> candidates = new ArrayList();
 
 
+
     public Box(int row, int col, int value) {
 
 
@@ -52,7 +53,7 @@ public class Box {
     }
 
     public int getInitialRowIndex() {
-        //Grid #    initCol
+        //Grid #    initRow
         //1     0
         //2     0
         //3     0
@@ -82,7 +83,6 @@ public class Box {
 
     public void setValue(int val) {
         value = val;
-        System.out.println("CANDIDATES: " + candidates);
 //        for (int i = candidates.size() - 1; i >= 0; i--) {
 //            if (candidates.get(i) != val)
 //                candidates.remove(i);
@@ -109,7 +109,6 @@ public class Box {
         }
         return false;
     }
-
 
     public ArrayList<Integer> getCandidates(){
         return candidates;

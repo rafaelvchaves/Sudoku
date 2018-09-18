@@ -94,10 +94,11 @@ public class SudokuMain<i> {
                                     sudoku[r][c].removeCandidate(init[r1][c1]);
                             }
                         }
-
                         //looping through the candidates of init[r][c]
+                        for (int i = 0; i < sudoku[r][c].getCandidates().size(); i++) {
 
-                        for (int candidate : sudoku[r][c].getCandidates()) {
+                            int candidate = sudoku[r][c].getCandidates().get(i);
+
                             foundinRow = false;
                             foundinCol = false;
                             foundinBox = false;
@@ -120,10 +121,9 @@ public class SudokuMain<i> {
                             }
 
                             //checking to see if this candidate is found anywhere else in init[r][c]'s 3x3 grid
-
-
                             for (int r1 = initialRowIndex; r1 <= initialRowIndex + 2; r1++) {
                                 for (int c1 = initialColIndex; c1 <= initialColIndex + 2; c1++) {
+
                                     if (sudoku[r1][c1].containsCandidate(candidate) && (r1 != r || c1 != c)) {
                                         foundinBox = true;
                                     }
@@ -147,13 +147,40 @@ public class SudokuMain<i> {
                                 init[r][c] = candidate;
                             }
 
-
                         }
 
+                        for (int i = 0; i < sudoku[r][c].getCandidates().size(); i++){
+                            int candCount = 0;
+                            int rowWithCandidate = -1;
+                            int colWithCandidate = -1;
+                            int candidateVal = sudoku[r][c].getCandidates().get(i);
+                            for (int r1 = initialRowIndex; r1 <= initialRowIndex + 2; r1++) {
+                                for (int c1 = initialColIndex; c1 <= initialColIndex + 2; c1++) {
+                                    if (sudoku[r1][c1].containsCandidate(candidateVal) && (r1 != r || c1 != c)) {
+                                        candCount++;
+                                        rowWithCandidate = r1;
+                                        colWithCandidate = c1;
+                                    }
+                                }
+                            }
+                            if (candCount == 1 && r == rowWithCandidate && c != colWithCandidate){
+                                for (int col = 0; col < sudoku[0].length; col++) {
+                                    if (col != c && col != colWithCandidate)
+                                        sudoku[rowWithCandidate][col].removeCandidate(candidateVal);
+                                }
+                            }
+                            if (candCount == 1 && r != rowWithCandidate && c == colWithCandidate){
+                                for (int row = 0; row < sudoku.length; row++) {
+                                    if (row != r && row != rowWithCandidate)
+                                        sudoku[row][colWithCandidate].removeCandidate(candidateVal);
+                                }
+                            }
+
+                        }
                     }
 
 
-                    System.out.println("" + r + "," + c + "" + ":" + sudoku[r][c].getCandidates());
+                    System.out.println(r + "," + c + "" + ": " + "value = " + init[r][c] + " candidates = " + sudoku[r][c].getCandidates());
                     if (sudoku[r][c].getCandidates().size() == 1) {
                         init[r][c] = sudoku[r][c].getCandidates().get(0);
                         sudoku[r][c].setValue(init[r][c]);
@@ -172,6 +199,7 @@ public class SudokuMain<i> {
         System.out.println("Solved");
     }
 }
+
 
 
 
