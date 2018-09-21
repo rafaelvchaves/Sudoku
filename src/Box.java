@@ -110,6 +110,18 @@ public class Box {
         return false;
     }
 
+    public boolean hasSameCandidatesAs (Box b){
+        if (candidates.size() != b.getCandidates().size())
+            return false;
+        for (int i = 0; i < candidates.size(); i++) {
+            if (candidates.get(i) != b.getCandidates().get(i))
+                return false;
+        }
+
+        return true;
+
+    }
+
     public ArrayList<Integer> getCandidates(){
         return candidates;
     }

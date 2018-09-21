@@ -175,7 +175,7 @@ public class SudokuMain<i> {
 
                         }
 
-                        //looping through all of the candidates again, except this time we're using the pointing pair technique
+                        //looping through all of the candidates again, except this time we're using the hidden pair technique
 
                         for (int i = 0; i < sudoku[r][c].getCandidates().size(); i++){
 
@@ -214,6 +214,7 @@ public class SudokuMain<i> {
                             if (candCount == 1 && r == rowWithCandidate && c != colWithCandidate){
 
                                 //loop through the rest of the column values with our common row value and remove the candidate value from all
+                                //boxes in the row
 
                                 for (int col = 0; col < sudoku[0].length; col++) {
                                     if (col != c && col != colWithCandidate)
@@ -221,6 +222,11 @@ public class SudokuMain<i> {
                                 }
                             }
                             if (candCount == 1 && r != rowWithCandidate && c == colWithCandidate){
+
+                                //loop through the rest of the row values with our common column value and remove the candidate value from all
+                                //boxes in the column
+
+
                                 for (int row = 0; row < sudoku.length; row++) {
                                     if (row != r && row != rowWithCandidate)
                                         sudoku[row][colWithCandidate].removeCandidate(candidateVal);
@@ -228,6 +234,78 @@ public class SudokuMain<i> {
                             }
 
                         }
+
+                        //Pointing pair technique
+                        //Only works if two boxes share the same 2 candidates and they are in the same row, column, or 3x3 grid
+
+                        int cand1, cand2; //these are the 2 candidates we are checking
+
+                        //First, we need to make sure that the empty box sudoku[r][c] we found only has two candidates:
+
+                        if (sudoku[r][c].getCandidates().size() == 2){
+
+                            //Three loops: the first is for looping through the row of sudoku[r][c], the second for the column, and the third
+                            //for the 3x3 grid
+
+                            for (int i = 0; i < sudoku.length; i++) {
+
+                                //if the candidate list of sudoku[r][c] is identical to another box in the same row, remove those two candidates
+                                //from every other box in that row.
+
+                                if (sudoku[r][c].hasSameCandidatesAs(sudoku[r][i]) && i != c){
+                                    cand1 = sudoku[r][c].getCandidates().get(0);
+                                    cand2 = sudoku[r][c].getCandidates().get(1);
+                                    for (int j = 0; j < sudoku.length; j++) {
+                                        if (j != c && j != i) {
+                                            sudoku[r][j].removeCandidate(cand1);
+                                            sudoku[r][j].removeCandidate(cand2);
+                                        }
+                                    }
+                                }
+                            }
+
+                            for (int i = 0; i < sudoku[0].length; i++) {
+
+                                //if the candidate list of sudoku[r][c] is identical to another box in the same column, remove those two candidates
+                                //from every other box in that column.
+
+                                if (sudoku[r][c].hasSameCandidatesAs(sudoku[i][c]) && i != r){
+                                    cand1 = sudoku[r][c].getCandidates().get(0);
+                                    cand2 = sudoku[r][c].getCandidates().get(1);
+                                    for (int j = 0; j < sudoku[0].length; j++) {
+                                        if (j != r && j != i) {
+                                            sudoku[j][c].removeCandidate(cand1);
+                                            sudoku[j][c].removeCandidate(cand2);
+                                        }
+                                    }
+                                }
+                            }
+                            for (int r1 = initialRowIndex; r1 <= initialRowIndex + 2; r1++) {
+                                for (int c1 = initialColIndex; c1 <= initialColIndex + 2; c1++) {
+
+                                    //if the candidate list of sudoku[r][c] is identical to another box in the same 3x3 grid, remove those two
+                                    //candidates from every other box in that 3x3 grid.
+
+                                    if (sudoku[r][c].hasSameCandidatesAs(sudoku[r1][c1]) && (r1 != r || c1 != c)){
+                                        cand1 = sudoku[r][c].getCandidates().get(0);
+                                        cand2 = sudoku[r][c].getCandidates().get(1);
+                                        for (int r2 = initialRowIndex; r2 <= initialRowIndex + 2; r2++) {
+                                            for (int c2 = initialColIndex; c2 <= initialColIndex + 2; c2++) {
+                                                if (r2 != r && r2 != r1 && c2 != c && c2 != c1){
+                                                    sudoku[r2][c2].removeCandidate(cand1);
+                                                    sudoku[r2][c2].removeCandidate(cand2);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+
+                        }
+
+
                     }
 
 
