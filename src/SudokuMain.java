@@ -5,6 +5,9 @@ import java.util.Arrays;
 public class SudokuMain<i> {
 
     private static Box[][] sudoku = new Box[9][9];
+    private Reader reader = new Reader();
+//    private static int[][] init = reader.getIntArr("s01a.txt");
+
     private static int[][] init =
             {
                     {0, 0, 0, 0, 0, 0, 2, 0, 0},
@@ -71,6 +74,8 @@ public class SudokuMain<i> {
             };
 
     public static void main(String[] args) {
+        Reader reader = new Reader();
+        reader.getIntArr("s01a.txt");
         int initSolved = 0;
         boolean foundinRow = false;
         boolean foundinCol = false;
@@ -84,8 +89,9 @@ public class SudokuMain<i> {
                 }
             }
         }
-        System.out.println(initSolved);
+//        System.out.println(initSolved);
         while (zeroes) {
+
             zeroes = false;
             for (int r = 0; r < init.length; r++) {
                 for (int c = 0; c < init[0].length; c++) {
@@ -309,7 +315,7 @@ public class SudokuMain<i> {
                     }
 
 
-                    System.out.println(r + "," + c + "" + ": " + "value = " + init[r][c] + " candidates = " + sudoku[r][c].getCandidates());
+//                    System.out.println(r + "," + c + "" + ": " + "value = " + init[r][c] + " candidates = " + sudoku[r][c].getCandidates());
                     if (sudoku[r][c].getCandidates().size() == 1) {
                         init[r][c] = sudoku[r][c].getCandidates().get(0);
                         sudoku[r][c].setValue(init[r][c]);
@@ -322,7 +328,9 @@ public class SudokuMain<i> {
 
             for (int i = 0; i < init.length; i++) {
                 System.out.println(Arrays.toString(init[i]));
+
             }
+            System.out.println();
         }
 
         System.out.println("Solved");
