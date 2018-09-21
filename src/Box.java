@@ -83,10 +83,10 @@ public class Box {
 
     public void setValue(int val) {
         value = val;
-//        for (int i = candidates.size() - 1; i >= 0; i--) {
-//            if (candidates.get(i) != val)
-//                candidates.remove(i);
-//        }
+        for (int i = candidates.size() - 1; i >= 0; i--) {
+            if (candidates.get(i) != val)
+                candidates.remove(i);
+        }
         if (val!=0){
             candidates=new ArrayList<Integer>() {};
         }

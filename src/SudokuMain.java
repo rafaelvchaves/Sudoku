@@ -7,17 +7,43 @@ public class SudokuMain<i> {
     private static Box[][] sudoku = new Box[9][9];
     private static int[][] init =
             {
+                    {0, 0, 0, 0, 0, 0, 2, 0, 0},
+                    {0, 8, 3, 2, 0, 0, 0, 0, 1},
+                    {0, 7, 0, 5, 4, 0, 0, 8, 0},
+                    {0, 1, 0, 7, 0, 0, 0, 0, 0},
+                    {0, 4, 0, 0, 8, 0, 0, 7, 0},
+                    {0, 0, 0, 0, 0, 4, 0, 3, 0},
+                    {0, 5, 0, 0, 3, 6, 0, 2, 0},
+                    {4, 0, 0, 0, 0, 2, 3, 5, 0},
+                    {0, 0, 7, 0, 0, 0, 0, 0, 0}
 
 
-                    {0, 5, 0, 0, 9, 0, 0, 0, 0},
-                    {0, 0, 4, 8, 0, 0, 0, 0, 9},
-                    {0, 0, 0, 1, 0, 7, 2, 8, 0},
-                    {5, 6, 0, 0, 0, 0, 1, 3, 7},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {1, 7, 3, 0, 0, 0, 0, 4, 2},
-                    {0, 2, 1, 5, 0, 8, 0, 0, 0},
-                    {6, 0, 0, 0, 0, 3, 8, 0, 0},
-                    {0, 0, 0, 0, 1, 0, 0, 6, 0}
+                    //HARD:
+
+//                    {0, 5, 0, 0, 9, 0, 0, 0, 0},
+//                    {0, 0, 4, 8, 0, 0, 0, 0, 9},
+//                    {0, 0, 0, 1, 0, 7, 2, 8, 0},
+//                    {5, 6, 0, 0, 0, 0, 1, 3, 7},
+//                    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//                    {1, 7, 3, 0, 0, 0, 0, 4, 2},
+//                    {0, 2, 1, 5, 0, 8, 0, 0, 0},
+//                    {6, 0, 0, 0, 0, 3, 8, 0, 0},
+//                    {0, 0, 0, 0, 1, 0, 0, 6, 0}
+
+                    //MEDIUM 2:
+
+//                    {0, 5, 0, 2, 0, 0, 0, 0, 0},
+//                    {3, 0, 0, 0, 0, 5, 0, 8, 0},
+//                    {9, 6, 0, 0, 7, 8, 2, 0, 0},
+//                    {0, 0, 0, 0, 3, 0, 0, 2, 0},
+//                    {7, 0, 8, 0, 0, 0, 1, 0, 3},
+//                    {0, 4, 0, 0, 8, 0, 0, 0, 0},
+//                    {0, 0, 1, 6, 4, 0, 0, 3, 2},
+//                    {0, 7, 0, 5, 0, 0, 0, 0, 1},
+//                    {0, 0, 0, 0, 0, 9, 0, 5, 0}
+
+
+                    //MEDIUM 1:
 
 //                    {2, 0, 6, 0, 0, 0, 0, 4, 9},
 //                    {0, 3, 7, 0, 0, 9, 0, 0, 0},
@@ -29,6 +55,7 @@ public class SudokuMain<i> {
 //                    {0, 0, 0, 3, 0, 0, 4, 9, 0},
 //                    {4, 1, 0, 0, 0, 0, 2, 0, 8}
 
+                    //EASY:
 
 //                    {5, 0, 0, 0, 1, 3, 8, 0, 9},
 //                    {3, 0, 0, 0, 9, 0, 4, 6, 0},
@@ -39,7 +66,6 @@ public class SudokuMain<i> {
 //                    {9, 0, 2, 0, 0, 5, 7, 8, 0},
 //                    {0, 4, 8, 0, 3, 0, 0, 0, 2},
 //                    {1, 0, 5, 8, 2, 0, 0, 0, 4}
-//                    HARD:
 
 
             };
@@ -149,13 +175,28 @@ public class SudokuMain<i> {
 
                         }
 
+                        //looping through all of the candidates again, except this time we're using the pointing pair technique
+
                         for (int i = 0; i < sudoku[r][c].getCandidates().size(); i++){
+
+                            //candCount will count how many boxes in sudoku[r][c]'s 3x3 grid have the same candidate value
+                            //once a box is found in the 3x3 grid with the same candidate,
+                            //rowWithCandidate and colWithCandidate will hold on to that box's row and column respectively
+
                             int candCount = 0;
                             int rowWithCandidate = -1;
                             int colWithCandidate = -1;
                             int candidateVal = sudoku[r][c].getCandidates().get(i);
+
+                            //loop through the 3x3 grid of sudoku[r][c]
+
                             for (int r1 = initialRowIndex; r1 <= initialRowIndex + 2; r1++) {
                                 for (int c1 = initialColIndex; c1 <= initialColIndex + 2; c1++) {
+
+                                    //if a square in sudoku[r][c]'s box has the same candidate val (and it's not the same box),
+                                    //then the candidate counter will go up by 1
+                                    //additionally, we will hold on to the row and column of this box in case we need it later
+
                                     if (sudoku[r1][c1].containsCandidate(candidateVal) && (r1 != r || c1 != c)) {
                                         candCount++;
                                         rowWithCandidate = r1;
@@ -163,7 +204,17 @@ public class SudokuMain<i> {
                                     }
                                 }
                             }
+
+                            //two if statements, both of which require that only 1 other box in sudoku's 3x3 grid contains the same candidate
+                            //the first if statement will also check to see if this other box has the same row value as sudoku[r][c], and
+                            //the second if statement will also check to see if this other box has the same column value as sudoku[r][c]
+                            //the third boolean in each of these if statements checks to make sure we're talking about 2 different boxes:
+                            //only a row index OR a column index can be shared, not both
+
                             if (candCount == 1 && r == rowWithCandidate && c != colWithCandidate){
+
+                                //loop through the rest of the column values with our common row value and remove the candidate value from all
+
                                 for (int col = 0; col < sudoku[0].length; col++) {
                                     if (col != c && col != colWithCandidate)
                                         sudoku[rowWithCandidate][col].removeCandidate(candidateVal);
