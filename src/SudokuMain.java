@@ -6,8 +6,6 @@ import java.util.Arrays;
 public class SudokuMain<i> {
 
     private static Box[][] sudoku = new Box[9][9];
-    private Reader reader = new Reader();
-//    private static int[][] init = reader.getIntArr("s01a.txt");
 
     private static int[][] init =
             {
@@ -84,9 +82,10 @@ public class SudokuMain<i> {
 
             };
 
+
     public static void main(String[] args) {
         Reader reader = new Reader();
-        reader.getIntArr("s01a.txt");
+        init=reader.getIntArr("s01a.txt");
         int initSolved = 0;
         boolean foundinRow = false;
         boolean foundinCol = false;
