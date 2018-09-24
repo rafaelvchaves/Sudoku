@@ -63,11 +63,7 @@ public class Box {
         //7     6
         //8     6
         //9     6
-        int var = ((getBox() - 1)/3)*3;
-        if (var != 0 && var != 3 && var != 6) {
-            System.out.println(var);
-        }
-        return var;
+        return ((getBox() - 1)/3)*3;
 
 
     }
@@ -120,6 +116,26 @@ public class Box {
 
         return true;
 
+    }
+
+    public boolean notSameBoxAs(Box b){
+        if (row == b.getRow() && col == b.getCol())
+            return false;
+        return true;
+    }
+
+    public int getRow(){
+        return row;
+    }
+    public int getCol(){
+        return col;
+    }
+
+    public void removeAllCandidatesExcept(int cand1, int cand2){
+        for (int i = candidates.size() - 1; i >= 0; i--) {
+            if (candidates.get(i) != cand1 && candidates.get(i) != cand2)
+                candidates.remove(i);
+        }
     }
 
     public ArrayList<Integer> getCandidates(){
