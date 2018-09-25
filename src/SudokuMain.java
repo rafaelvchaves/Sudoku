@@ -1,7 +1,10 @@
+import sun.font.FontRunIterator;
 import sun.security.util.Length;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SudokuMain<i> {
 
@@ -9,15 +12,15 @@ public class SudokuMain<i> {
 
     private static int[][] init =
             {
-                    {0, 0, 4, 0, 2, 0, 0, 0, 0},
-                    {0, 0, 0, 9, 0, 0, 2, 6, 0},
-                    {0, 0, 0, 5, 0, 0, 0, 9, 8},
-                    {0, 0, 0, 0, 0, 7, 0, 5, 0},
-                    {7, 0, 5, 0, 1, 0, 3, 0, 2},
-                    {0, 4, 0, 6, 0, 0, 0, 0, 0},
-                    {3, 7, 0, 0, 0, 4, 0, 0, 0},
-                    {0, 8, 2, 0, 0, 1, 0, 0, 0},
-                    {0, 0, 0, 0, 9, 0, 7, 0, 0}
+//                    {0, 0, 4, 0, 2, 0, 0, 0, 0},
+//                    {0, 0, 0, 9, 0, 0, 2, 6, 0},
+//                    {0, 0, 0, 5, 0, 0, 0, 9, 8},
+//                    {0, 0, 0, 0, 0, 7, 0, 5, 0},
+//                    {7, 0, 5, 0, 1, 0, 3, 0, 2},
+//                    {0, 4, 0, 6, 0, 0, 0, 0, 0},
+//                    {3, 7, 0, 0, 0, 4, 0, 0, 0},
+//                    {0, 8, 2, 0, 0, 1, 0, 0, 0},
+//                    {0, 0, 0, 0, 9, 0, 7, 0, 0}
 
 //                    {0, 0, 0, 0, 0, 0, 2, 0, 0},
 //                    {0, 8, 3, 2, 0, 0, 0, 0, 1},
@@ -85,7 +88,7 @@ public class SudokuMain<i> {
 
     public static void main(String[] args) {
         Reader reader = new Reader();
-        init=reader.getIntArr("s01a.txt");
+        init=reader.getIntArr("s16a.txt");
         int initSolved = 0;
         boolean foundinRow = false;
         boolean foundinCol = false;
@@ -204,7 +207,7 @@ public class SudokuMain<i> {
                         //yet again, we will loop through the candidates of sudoku[r][c] in order to do two more solving technques:
                         //pointing pair and hidden pair
 
-                        for (int i = 0; i < sudoku[r][c].getCandidates().size(); i++){
+                        for (int i = 0; i < sudoku[r][c].getCandidates().size(); i++) {
 
                             //POINTING PAIR TECHNIQUE:
 
@@ -238,7 +241,7 @@ public class SudokuMain<i> {
                             //the third boolean in each of these if statements checks to make sure we're talking about 2 different boxes:
                             //only a row index OR a column index can be shared, not both
 
-                            if (candCount == 1 && r == rowWithCandidate && c != colWithCandidate){
+                            if (candCount == 1 && r == rowWithCandidate && c != colWithCandidate) {
 
                                 //loop through the rest of the column values with our common row value and remove the candidate value from all
                                 //boxes in the row
@@ -248,8 +251,7 @@ public class SudokuMain<i> {
                                         sudoku[rowWithCandidate][col].removeCandidate(candidateVal);
                                 }
                             }
-                            if (candCount == 1 && r != rowWithCandidate && c == colWithCandidate){
-
+                            if (candCount == 1 && r != rowWithCandidate && c == colWithCandidate) {
                                 //loop through the rest of the row values with our common column value and remove the candidate value from all
                                 //boxes in the column
 
@@ -285,7 +287,7 @@ public class SudokuMain<i> {
 
                             for (int r1 = initialRowIndex; r1 <= initialRowIndex + 2; r1++) {
                                 for (int c1 = initialColIndex; c1 <= initialColIndex + 2; c1++) {
-                                    if (sudoku[r1][c1].containsCandidate(candidate1) && sudoku[r1][c1].notSameBoxAs(sudoku[r][c])){
+                                    if (sudoku[r1][c1].containsCandidate(candidate1) && sudoku[r1][c1].notSameBoxAs(sudoku[r][c])) {
                                         boxesWithCandidate++;
                                         candidatesRow = r1;
                                         candidatesCol = c1;
@@ -300,7 +302,7 @@ public class SudokuMain<i> {
                             //We're checking one candidate at a time: if there's only one box in sudoku[r][c]'s 3x3 grid with that same candidate,
                             //store that box's row, col, and the shared candidate in the respective Arraylists.
 
-                            if (boxesWithCandidate == 1){
+                            if (boxesWithCandidate == 1) {
                                 rowsWithCandidateVal.add(candidatesRow);
                                 colsWithCandidateVal.add(candidatesCol);
                                 commonCandidates.add(candidate1);
@@ -308,7 +310,7 @@ public class SudokuMain<i> {
 
                             //This if statement will work if we have 2 instances of only 1 other box having the same candidate
 
-                            if (rowsWithCandidateVal.size() == 2 && colsWithCandidateVal.size() == 2 && commonCandidates.size() == 2){
+                            if (rowsWithCandidateVal.size() == 2 && colsWithCandidateVal.size() == 2 && commonCandidates.size() == 2) {
                                 int possibleCand1 = commonCandidates.get(0);
                                 int possibleCand2 = commonCandidates.get(1);
                                 int row = rowsWithCandidateVal.get(0);
@@ -319,7 +321,7 @@ public class SudokuMain<i> {
                                 //candidates can only possibly go in sudoku[r][c] and this box we've traced.
                                 //Therefore, all other candidates must be removed from these two boxes except for these two candidates.
 
-                                if (rowsWithCandidateVal.get(0) == rowsWithCandidateVal.get(1) && colsWithCandidateVal.get(0) == colsWithCandidateVal.get(1)){
+                                if (rowsWithCandidateVal.get(0) == rowsWithCandidateVal.get(1) && colsWithCandidateVal.get(0) == colsWithCandidateVal.get(1)) {
                                     sudoku[r][c].removeAllCandidatesExcept(possibleCand1, possibleCand2);
                                     sudoku[row][col].removeAllCandidatesExcept(possibleCand1, possibleCand2);
                                 }
@@ -329,14 +331,13 @@ public class SudokuMain<i> {
                         }
 
 
-
                         //NAKED PAIR TECHNIQUE:
 
                         int cand1, cand2;
 
                         //First, we need to make sure that the empty box (sudoku[r][c]) we're examining has only has two candidates:
 
-                        if (sudoku[r][c].getCandidates().size() == 2){
+                        if (sudoku[r][c].getCandidates().size() == 2) {
 
                             //Three loops: the first is for looping through the row of sudoku[r][c], the second for the column, and the third
                             //for the 3x3 grid
@@ -349,7 +350,7 @@ public class SudokuMain<i> {
                                 //to the candidate list of another box in the same row, remove those two candidates
                                 //from every other box in that row.
 
-                                if (sudoku[r][c].hasSameCandidatesAs(sudoku[r][i]) && i != c){
+                                if (sudoku[r][c].hasSameCandidatesAs(sudoku[r][i]) && i != c) {
                                     cand1 = sudoku[r][c].getCandidates().get(0);
                                     cand2 = sudoku[r][c].getCandidates().get(1);
                                     for (int j = 0; j < sudoku.length; j++) {
@@ -369,7 +370,7 @@ public class SudokuMain<i> {
                                 //to the candidate list of another box in the same column, remove those two candidates
                                 //from every other box in that column.
 
-                                if (sudoku[r][c].hasSameCandidatesAs(sudoku[i][c]) && i != r){
+                                if (sudoku[r][c].hasSameCandidatesAs(sudoku[i][c]) && i != r) {
                                     cand1 = sudoku[r][c].getCandidates().get(0);
                                     cand2 = sudoku[r][c].getCandidates().get(1);
                                     for (int j = 0; j < sudoku[0].length; j++) {
@@ -390,12 +391,12 @@ public class SudokuMain<i> {
                                     //to the candidate list of another box in the same 3x3 grid, remove those two
                                     //candidates from every other box in that 3x3 grid.
 
-                                    if (sudoku[r][c].hasSameCandidatesAs(sudoku[r1][c1]) && (r1 != r || c1 != c)){
+                                    if (sudoku[r][c].hasSameCandidatesAs(sudoku[r1][c1]) && (r1 != r || c1 != c)) {
                                         cand1 = sudoku[r][c].getCandidates().get(0);
                                         cand2 = sudoku[r][c].getCandidates().get(1);
                                         for (int r2 = initialRowIndex; r2 <= initialRowIndex + 2; r2++) {
                                             for (int c2 = initialColIndex; c2 <= initialColIndex + 2; c2++) {
-                                                if (sudoku[r2][c2].notSameBoxAs(sudoku[r][c]) && sudoku[r2][c2].notSameBoxAs(sudoku[r1][c1])){
+                                                if (sudoku[r2][c2].notSameBoxAs(sudoku[r][c]) && sudoku[r2][c2].notSameBoxAs(sudoku[r1][c1])) {
                                                     sudoku[r2][c2].removeCandidate(cand1);
                                                     sudoku[r2][c2].removeCandidate(cand2);
                                                 }
@@ -428,19 +429,105 @@ public class SudokuMain<i> {
             }
 
             int counter = 0;
+            int r;
+            ArrayList<Integer> rows = new ArrayList<Integer>();
+            ArrayList<Integer> cols = new ArrayList<Integer>();
             ArrayList<Integer> amountInRow = new ArrayList<Integer>();
             for (int i = 1; i <= 9; i++) {
-                for (Box[] row : sudoku){
-                    for (Box b : row){
-                        if (b.containsCandidate(i)){
+                rows = new ArrayList<Integer>();
+                cols = new ArrayList<Integer>();
+                r = -1;
+                amountInRow = new ArrayList<Integer>();
+                for (Box[] row : sudoku) {
+                    r++;
+//                    System.out.println("candidate: " + i);
+//                    System.out.println("row: " + r);
+                    for (Box b : row) {
+                        if (b.containsCandidate(i)) {
+//                            System.out.println("(" + b.getRow() + ", " + b.getCol() + ")");
                             counter++;
                         }
                     }
                     amountInRow.add(counter);
+//                    System.out.println("counter: " + counter);
+//                    System.out.println();
                     counter = 0;
                 }
+                for (int j = 0; j < amountInRow.size(); j++) {
+                    if (amountInRow.get(j) == 2) {
+                        for (int k = 0; k < sudoku.length; k++) {
+                            if (sudoku[j][k].containsCandidate(i)) {
+                                cols.add(k);
+                                rows.add(j);
+                            }
+
+                        }
+                    }
+                }
+//                System.out.println("Original Row Indexes: " + rows);
+//                System.out.println("Original Col Indexes: " + cols);
+                boolean evens = false;
+                boolean odds = false;
+                int startE = 0;
+                int startO = 1;
+                while (cols.size() > 4 && rows.size() > 4 && (cols.get(0) != cols.get(2) || cols.get(1) != cols.get(3))){
+                    for (int j = startE + 2; j < cols.size() - 1; j+=2) {
+                        if (cols.get(startE) != cols.get(j))
+                            evens = true;
+                    }
+                    for (int j = startO + 2; j < cols.size(); j+=2) {
+                        if (cols.get(startO) != cols.get(j))
+                            odds = true;
+                    }
+                    if (evens && odds){
+                        cols.remove(startE);
+                        cols.remove(startO - 1);
+                        rows.remove(startE);
+                        rows.remove(startO - 1);
+                    }
+                    else {
+                        startE += 2;
+                        startO += 2;
+                    }
+                }
+
+
+
+                if (rows.size() == 4 && rows.get(0) == rows.get(1) && rows.get(2) == rows.get(3)) {
+                    if (cols.size() == 4 && cols.get(0) == cols.get(2) && cols.get(1) == cols.get(3)) {
+                        int row1 = rows.get(0); //4
+                        int row2 = rows.get(2); //8
+                        int col1 = cols.get(0); //3
+                        int col2 = cols.get(1); //7
+
+                        for (int c1 = 0; c1 < sudoku[0].length; c1++) {
+                            if (c1 != col1 && c1 != col2) {
+                                if (sudoku[row1][c1].containsCandidate(i)) {
+                                    sudoku[row1][c1].removeCandidate(i);
+                                }
+                                if (sudoku[row2][c1].containsCandidate(i)) {
+                                    sudoku[row2][c1].removeCandidate(i);
+                                }
+
+
+                            }
+                        }
+                        for (int r1 = 0; r1 < sudoku.length; r1++) {
+                            if (r1 != row1 && r1 != row2) {
+                                if (sudoku[r1][col1].containsCandidate(i)) {
+                                    sudoku[r1][col1].removeCandidate(i);
+                                }
+                                if (sudoku[r1][col2].containsCandidate(i)) {
+                                    sudoku[r1][col2].removeCandidate(i);
+                                }
+
+                            }
+                        }
+                    }
+                }
+
             }
-            zeroes = false;
+
 
             for (int i = 0; i < init.length; i++) {
                 System.out.println(Arrays.toString(init[i]));
