@@ -1,10 +1,7 @@
-import sun.font.FontRunIterator;
-import sun.security.util.Length;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+
+//Rafael Chaves and Robert Glazer
 
 public class SudokuMain {
 
@@ -15,7 +12,7 @@ public class SudokuMain {
 
     public static void main(String[] args) {
         Reader reader = new Reader();
-        init=reader.getIntArr("s05a.txt");
+        init=reader.getIntArr("s04a.txt");
         int initSolved = 0;
         boolean foundinRow = false;
         boolean foundinCol = false;
