@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SudokuMain<i> {
+public class SudokuMain {
 
     private static Box[][] sudoku = new Box[9][9];
 
